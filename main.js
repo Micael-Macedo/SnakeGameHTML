@@ -7,6 +7,7 @@ const $trofeu = document.getElementById('trofeu')
 const $level = document.getElementById('level')
 const username = document.getElementById('username')
 const nickname = window.localStorage.getItem('nickname')
+const body = document.querySelector('body')
 if (!nickname) {
     window.location.href = "index.html"
 }
@@ -114,6 +115,9 @@ function movement(key) {
         }
     }
 
+}
+function toggleScreen() {
+    body.classList.toggle("dark")
 }
 document.addEventListener('keydown', (e) => {
     movement(e.key)

@@ -8,11 +8,10 @@
     align-items: center;
 }
 .darkGreen{
-    background-color: darkgreen;
+    background-color: #11fe45;
 }
 .lightGreen{
-    
-    background-color: green;
+    background-color: #51ff78;
 }
 .space img{
     width: 100%;
@@ -90,4 +89,41 @@
     height: 10px;
     background-color: black;
     border-radius: 50%;
+}
+.toggleScreen{
+    width: 100px;
+    height: 35px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background-color: orange;
+    border-radius: 10px ;
+    transition: .4s;
+    padding: 0px 1px;
+}
+.button {
+    width: 45px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: white;
+    transition: .4s;
+}
+body.dark .toggleScreen{
+background-color: black;
+justify-content: end;
+}
+body{
+    background-color: #14ae5c;
+}
+body.dark{
+    background-color: #0a2c1a;
+}
+body.dark .button{
+    background-color: white;
+}
+body.dark .darkGreen{
+    background-color: #1f522a;
+}
+body.dark .lightGreen{
+    background-color: #478e57;
 }
