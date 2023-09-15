@@ -4,29 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="dashboard">
+    <form action="" method="post" id="form">
+        <div class="col">
+            <div class="form-group">
+                <label for="">Nickname</label>
+                <input type="text" id="nickname">
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password">
+            </div>
+            <button onclick="login(this)">LOGIN</button>
+        </div>
+    </form>
+    <div class="row"><a href="game.html">JOGAR NOVAMENTE</a><a href="index.html">MENU INICIAL</a></div>
 
-        <div id="status">
-            <div id="score">0</div>
-            <h2>Comidas não saudáveis</h2>
-            <div id="jf">0</div>
-            <h2>Comidas saudáveis</h2>
-            <div id="hf">0</div>
-            <h2>Medalhas</h2>
-            <div id="medalha">0</div>
-            <h2>Trofeus</h2>
-            <div id="trofeu">0</div>
-            <h2>Nivel</h2>
-            <div id="level">1</div>
-            
-        </div>
-        <div id="game" class="l1">
-            
-        </div>
-        </div>
-    <script src="main.js"></script>
+    <script>
+        const nickname = document.getElementById('nickname')
+        const password = document.getElementById('password')
+        const form = document.getElementById("form")
+        form.addEventListener("submit", (event) => {
+            event.preventDefault()
+            if(nickname.value != ""){
+                window.localStorage.setItem("nickname", nickname.value)
+                window.location.href = "game.html"
+            }
+        })
+        var rankings = JSON.parse(window.localStorage.getItem('ranking'))
+
+        if(!rankings){
+            rankings = []
+            for (let index = 0; index < 5; index++) {
+                rankings.push({nickname: null, nickname: null, pontuacao: 0, frutas: 0, medalhas: 0, trofeus: 0})
+            }
+            window.localStorage.setItem('ranking', JSON.stringify(rankings))
+        }
+    </script>
 </body>
 </html>
