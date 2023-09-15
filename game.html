@@ -7,10 +7,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="modal show" id="modal_1">
+        <div class="modal_body">
+            <h2>Olá,  <span id="username"></span>! Vamos iniciar sua jornada da saúde?</h2>
+            <button onclick="toggleModal('modal_1')">VAMOS INICIAR</button>
+            <a href="ranking.html">Ver ranking</a>
+        </div>
+    </div>
     <div id="dashboard">
         <div id="status">
-            <h2>Bem vindo <span id="username"></span></h2>
-            <a href="ranking.html">Ver ranking</a>
             <div id="score">0</div>
             <h2>Comidas não saudáveis</h2>
             <div id="jf">0</div>

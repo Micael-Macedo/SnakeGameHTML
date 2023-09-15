@@ -54,7 +54,7 @@ function loadSnake() {
 
 function loadFood() {
     let level = parseInt($level.innerText)
-    for (let index = 0; index < level * 7; index++) {
+    for (let index = 0; index < level * 2 + 15; index++) {
         var randomL = Math.floor(Math.random() * 17)
         var randomC = Math.floor(Math.random() * 15)
         if ($rows[randomL].children[randomC].hasChildNodes()) {
@@ -68,7 +68,7 @@ function loadFood() {
             $rows[randomL].children[randomC].appendChild(image)
         }
     }
-    for (let index = 0; index < level * 3; index++) {
+    for (let index = 0; index < level + 2; index++) {
         var randomL = Math.floor(Math.random() * 17)
         var randomC = Math.floor(Math.random() * 15)
         if ($rows[randomL].children[randomC].hasChildNodes()) {
@@ -129,7 +129,7 @@ let milisseconds = 0
 setInterval(() => {
     acao()
 }, 100);
-var time = 500
+var time = 300
 function gameover() {
     gameOver = true
     snake.dirX = 0
@@ -198,7 +198,7 @@ function acao() {
                     $rows[snake.body[0].y].children[snake.body[0].x].classList.remove('hf')
                     $hf.innerText = parseInt($hf.innerText) + 1
                     game.frutas++
-                    if(parseInt($hf.innerText) % 3){
+                    if(parseInt($hf.innerText) % 3 == 0){
                         game.pontuacao += 10
                     }
                     $medalha.innerText = parseInt(parseInt($hf.innerText) / 3)
@@ -215,6 +215,7 @@ function acao() {
                     $rows[snake.body[0].y].children[snake.body[0].x].replaceChildren(snake.body[0].obj)
                     snake.body.push({ x: snake.body[snake.body.length - 1].x, y: snake.body[snake.body.length - 1].y, obj: bodyPart })
                 }
+
                 $score.innerText = game.pontuacao
             }
             snake.body.forEach((part, index) => {
@@ -223,11 +224,11 @@ function acao() {
             });
 
 
-            let score = parseInt($score.innerText)
-            currentLevel = score / 50
+            let currentLevel = parseInt(game.pontuacao / 50)
             console.log(game.frutas)
-            if (game.frutas % 5 == 0 && currentLevel !== 0 && game.frutas != 0) {
-                currentLevel++
+            console.log(currentLevel)
+            if (game.pontuacao % 50 >= 0 && currentLevel !== 0 && game.frutas != 0) {
+                currentLevel = parseInt(currentLevel)+1
                 $level.innerText = parseInt(currentLevel)
                 if (currentLevel != lastLevel && lastLevel < 5) {
                     lastLevel = currentLevel
@@ -241,3 +242,11 @@ function acao() {
     }
 }
 
+function toggleModal(closeModal, nextModal){
+    let modal = document.getElementById(closeModal)
+    modal.classList.toggle('show')
+    if(nextModal){
+        let newmodal = document.getElementById(nextModal)
+        newmodal.classList.toggle('show')
+    }
+}
