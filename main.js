@@ -53,7 +53,7 @@ function loadSnake() {
 
 function loadFood() {
     let level = parseInt($level.innerText)
-    for (let index = 0; index < level * 5; index++) {
+    for (let index = 0; index < level * 7; index++) {
         var randomL = Math.floor(Math.random() * 17)
         var randomC = Math.floor(Math.random() * 15)
         if ($rows[randomL].children[randomC].hasChildNodes()) {
@@ -67,7 +67,7 @@ function loadFood() {
             $rows[randomL].children[randomC].appendChild(image)
         }
     }
-    for (let index = 0; index < level * 5; index++) {
+    for (let index = 0; index < level * 3; index++) {
         var randomL = Math.floor(Math.random() * 17)
         var randomC = Math.floor(Math.random() * 15)
         if ($rows[randomL].children[randomC].hasChildNodes()) {
