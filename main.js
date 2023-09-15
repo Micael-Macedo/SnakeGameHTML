@@ -5,7 +5,19 @@ const $jf = document.getElementById('jf')
 const $medalha = document.getElementById('medalha')
 const $trofeu = document.getElementById('trofeu')
 const $level = document.getElementById('level')
-
+const username = document.getElementById('username')
+const nickname = window.localStorage.getItem('nickname')
+if (!nickname) {
+    window.location.href = "index.html"
+}
+username.innerText = nickname
+const game = {
+    pontuacao: 0,
+    nickname: nickname,
+    frutas: 0,
+    medalhas: 0,
+    trofeus: 0,
+}
 var darkFloor = false
 var firstMove = false
 var gameOver = false
@@ -115,10 +127,22 @@ setInterval(() => {
 }, 100);
 var time = 500
 function gameover() {
-    window.alert('game over')
     gameOver = true
     snake.dirX = 0
     snake.dirY = 0
+    const rankings = JSON.parse(window.localStorage.getItem('ranking'))
+    let newRecord = false
+    rankings.forEach((data, index) => {
+        if (!newRecord) {
+            if (game.pontuacao > data.pontuacao) {
+                console.log("maior")
+                rankings.splice(index,null, game)
+                rankings.pop()
+                newRecord = true
+            }
+        }
+    });
+    window.localStorage.setItem("ranking", JSON.stringify(rankings))
 }
 function acao() {
     milisseconds += 100
@@ -138,34 +162,45 @@ function acao() {
 
             if (snake.body[0].x + snake.dirX < 15 && snake.body[0].x + snake.dirX >= 0) {
                 snake.body[0].x += snake.dirX
-            }else{
-                gameover()
+            } else {
+                if (!gameOver) {
+                    gameover()
+                }
             }
             if (snake.body[0].y + snake.dirY < 17 && snake.body[0].y + snake.dirY >= 0) {
                 snake.body[0].y += snake.dirY
-            }else{
-                gameover()
+            } else {
+                if (!gameOver) {
+
+                    gameover()
+                }
             }
             snake.body.forEach((part, index) => {
                 if ((snake.body[0].x == part.x && snake.body[0].y == part.y) && index != 0) {
-                    gameOver()
+                    if (!gameOver) {
+                        gameover()
+                    }
                 }
             });
             if ($rows[snake.body[0].y].children[snake.body[0].x].hasChildNodes()) {
                 if ($rows[snake.body[0].y].children[snake.body[0].x].classList.contains('jf')) {
                     $rows[snake.body[0].y].children[snake.body[0].x].classList.remove('jf')
                     time -= 50
+                    game.pontuacao -= 3
                     $jf.innerText = parseInt($jf.innerText) + 1
                     $rows[snake.body[0].y].children[snake.body[0].x].replaceChildren(snake.body[0].obj)
                 }
                 if ($rows[snake.body[0].y].children[snake.body[0].x].classList.contains('hf')) {
                     $rows[snake.body[0].y].children[snake.body[0].x].classList.remove('hf')
                     $hf.innerText = parseInt($hf.innerText) + 1
-
-                    $score.innerText = parseInt($score.innerText) + 10
+                    game.frutas++
+                    if(parseInt($hf.innerText) % 3){
+                        game.pontuacao += 10
+                    }
                     $medalha.innerText = parseInt(parseInt($hf.innerText) / 3)
+                    game.medalhas = parseInt($medalha.innerText)
                     $trofeu.innerText = parseInt(parseInt($medalha.innerText) / 10)
-
+                    game.trofeus = parseInt($trofeu.innerText)
                     let bodyPart = document.createElement("div")
                     bodyPart.classList.add('bodySnake')
                     if (snake.body.length % 2 == 0) {
@@ -173,11 +208,10 @@ function acao() {
                     } else {
                         bodyPart.classList.add('s')
                     }
-
                     $rows[snake.body[0].y].children[snake.body[0].x].replaceChildren(snake.body[0].obj)
                     snake.body.push({ x: snake.body[snake.body.length - 1].x, y: snake.body[snake.body.length - 1].y, obj: bodyPart })
                 }
-
+                $score.innerText = game.pontuacao
             }
             snake.body.forEach((part, index) => {
                 $rows[part.y].children[part.x].appendChild(part.obj)
@@ -187,10 +221,10 @@ function acao() {
 
             let score = parseInt($score.innerText)
             currentLevel = score / 50
-
-            if (score % 50 == 0 && currentLevel !== 0) {
+            console.log(game.frutas)
+            if (game.frutas % 5 == 0 && currentLevel !== 0 && game.frutas != 0) {
                 currentLevel++
-                $level.innerText = currentLevel
+                $level.innerText = parseInt(currentLevel)
                 if (currentLevel != lastLevel && lastLevel < 5) {
                     lastLevel = currentLevel
                     $game.classList.remove(`l${lastLevel - 1}`)
