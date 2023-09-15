@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <table>
@@ -17,8 +18,22 @@
                 <th>Troféus</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="table">
         </tbody>
     </table>
+    <div class="row"><a href="game.html">JOGAR NOVAMENTE</a><a href="index.html">MENU INICIAL</a></div>
+    <script>
+        const table = document.getElementById('table')
+        const rankings = JSON.parse(window.localStorage.getItem('ranking'))
+        console.log(rankings)
+        const nickname = window.localStorage.getItem('nickname')
+        rankings.forEach((data,index) => {
+            if(data.nickname === nickname){
+                table.innerHTML += `<tr class="player"><td>${index+1}°</td><td>${data.nickname ?? ""}</td><td>${data.pontuacao}</td><td>${data.frutas}</td><td>${data.medalhas}</td><td>${data.trofeus}</td></tr>`
+            }else{
+                table.innerHTML += `<tr><td>${index+1}°</td><td>${data.nickname ?? ""}</td><td>${data.pontuacao}</td><td>${data.frutas}</td><td>${data.medalhas}</td><td>${data.trofeus}</td></tr>`
+            }
+        });
+    </script>
 </body>
 </html>
